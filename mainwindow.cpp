@@ -8,14 +8,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     showPorts();
-
-       if(serial_init()){
-           ui->connectLabel->setText("Связь установлена");
-       }
-       else{
-           ui->connectLabel->setText("Связь потеряна");
-           qDebug() << "Error opening serial port, timer not started";
-       }
 }
 
 MainWindow::~MainWindow()
@@ -62,4 +54,33 @@ void MainWindow::on_connectButton_clicked()
            ui->connectLabel->setText("Связь потеряна");
            qDebug() << "Error opening serial port, timer not started";
        }
+}
+
+void MainWindow::on_transmitMatrixButton_clicked()
+{
+   QByteArray outPacket;
+   QString matrix[3][3];
+   QString i, a;
+
+   if (serial.isOpen()){
+       matrix[1][1] = ui->m11lineEdit->text();
+       matrix[1][2] = ui->m12lineEdit->text();
+       matrix[1][3] = ui->m13lineEdit->text();
+       matrix[2][1] = ui->m21lineEdit->text();
+       matrix[2][2] = ui->m22lineEdit->text();
+       matrix[2][3] = ui->m23lineEdit->text();
+       matrix[3][1] = ui->m31lineEdit->text();
+       matrix[3][2] = ui->m32lineEdit->text();
+       matrix[3][3] = ui->m33lineEdit->text();
+
+       serial.write("m"); // отправка стартового байта
+
+//       foreach (i, matrix) { //отправка матрицы
+//           foreach (a, i) {
+//               outPacket.append((unsigned char)a);
+//           }
+//       }
+   } else{
+       QMessageBox::warning(0,"Ошибка", "Устройтсво не подключено");
+   }
 }

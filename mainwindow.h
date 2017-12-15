@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QtSerialPort/QSerialPort>
 #include <QSerialPortInfo>
-
+#include <QMessageBox>
 #include <QDebug>
 
 namespace Ui {
@@ -25,6 +25,8 @@ public:
 
 private slots:
     void on_connectButton_clicked();
+
+    void on_transmitMatrixButton_clicked();
 
 private:
     Ui::MainWindow *ui;
